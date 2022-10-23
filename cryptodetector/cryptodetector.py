@@ -1,4 +1,9 @@
 """
+Modified code from Wind River Systems (see below)
+Two lines added by vojtechsu (annotated by '# Added by vojtechsu')
+"""
+
+"""
 Copyright (c) 2017 Wind River Systems, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -68,6 +73,7 @@ class CryptoDetector(object):
         self.skip_output = skip_output
         self.current_package = None
         self.stop_after = None
+        self.output_file = None # Added by vojtechsu
 
         if stop_after:
             try:
@@ -431,6 +437,7 @@ class CryptoDetector(object):
         # rename the file back from .crypto.partial to .crypto at the very last step to ensure
         # writing completely succeeded when a .crypto file exists
         crypto_file_path = output_file[:-8]
+        self.output_file = crypto_file_path # Added by vojtechsu
         if os.path.exists(crypto_file_path):
             os.remove(crypto_file_path)
         os.rename(output_file, crypto_file_path)
