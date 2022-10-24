@@ -35,6 +35,9 @@ def parse_scan_results(filename):
     with open(filename) as f:
         data = json.load(f)
 
+    with open("cryptodetector/methods/keyword/ec_list_dict") as f:
+        identifiers_dict = json.load(f)
+
     crypto_evidence = data['crypto_evidence'].values()
 
     #sort evidences by curves
@@ -42,7 +45,8 @@ def parse_scan_results(filename):
     for evidence in crypto_evidence:
         file_paths = evidence["file_paths"]
         for hit in evidence["hits"]:
-            curve_name = hit["matched_text"].lower()
+            id = hit["matched_text"]
+            curve_name = identifiers_dict[id.lower()]
             if curve_name in evidence_by_curve:
                 evidence_by_curve[curve_name].append(reduce_hit_info(hit,file_paths))
             else:
